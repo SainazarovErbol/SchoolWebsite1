@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>Registration Form</title>
+		<link rel="stylesheet" href="../../static/css/register.css">
+	</head>
+
+	<body>
+
+		<div class="main" style="align-content: center">
+
+			<h2>Регистрация</h2>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">Имя пользователя:</label>
+                    <input type="text" id="username" name="username" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="grade">Grade:</label>
+                    <input type="text" id="grade" name="grade" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="password1">Пароль:</label>
+                    <input type="password" id="password1" name="password1" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="password2">Подтвердите пароль:</label>
+                    <input type="password" id="password2" name="password2" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="role">Роль:</label>
+                    <select id="role" name="role" class="form-control" required>
+                        <option value="student">Студент</option>
+                        <option value="teacher">Учитель</option>
+                        <option value="content_maker">Контент мейкер</option>
+                    </select>
+                </div>
+                <div id="teacher_password_group" class="form-group" style="display: none;">
+                    <label for="teacher_password">Пароль учителя:</label>
+                    <input type="password" id="teacher_password" name="teacher_password" class="form-control">
+                </div>
+                <div id="content_maker_password_group" class="form-group" style="display: none;">
+                    <label for="content_maker_password">Пароль контент мейкера:</label>
+                    <input type="password" id="content_maker_password" name="content_maker_password" class="form-control">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+
+            </form>
+
+		</div>
+        <script>
+            document.getElementById('role').addEventListener('change', function() {
+                var teacherPasswordGroup = document.getElementById('teacher_password_group');
+                var contentMakerPasswordGroup = document.getElementById('content_maker_password_group');
+
+                if (this.value === 'teacher') {
+                    teacherPasswordGroup.style.display = 'block';
+                    contentMakerPasswordGroup.style.display = 'none';
+                } else if (this.value === 'content_maker') {
+                    contentMakerPasswordGroup.style.display = 'block';
+                    teacherPasswordGroup.style.display = 'none';
+                } else {
+                    teacherPasswordGroup.style.display = 'none';
+                    contentMakerPasswordGroup.style.display = 'none';
+                }
+            });
+
+        </script>
+	</body>
+</html>

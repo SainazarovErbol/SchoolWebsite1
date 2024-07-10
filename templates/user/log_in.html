@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+      <title>HTML Login Form</title>
+      <link rel="stylesheet" href="../../static/css/log_in.css">
+</head>
+
+<body>
+      <div class="main">
+            <h1>Войти</h1>
+            <h3> </h3>
+
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Login</button>
+            </form>
+
+      </div>
+</body>
+
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<div class="container mt-5">
+    <h3 style="text-align: center;">Confirm Deletion</h3>
+    <p style="text-align: center;">Are you sure you want to delete "{{ gallery.title }}"?</p>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <form method="post">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-danger" value="Delete">
+            <a href="{% url 'gallery_detail' gallery.pk %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

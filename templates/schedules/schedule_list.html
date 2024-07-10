@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Schedule</title>
+    <link rel="stylesheet" href="{% static 'css/schedule.css' %}">
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Schedule</h1>
+    {% if user.is_authenticated %}
+        {% if can_edit %}
+            <div class="actions">
+                <a href="{% url 'schedule_create' %}" class="button">Create Schedule</a>
+            </div>
+        {% endif %}
+
+        {% if user.role == 'student' %}
+            <button id="show-all-schedule" class="button">Show Full Schedule</button>
+            <button id="show-my-schedule" class="button hidden">Show My Schedule</button>
+        {% endif %}
+
+        {% if schedules %}
+            <table id="schedule-table">
+                <thead>
+                    <tr>
+                        <th>Grade</th>
+                        <th>Day</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Subject</th>
+                        {% if can_edit %}
+                            <th>Actions</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for schedule in schedules %}
+                        <tr class="schedule-row {% if schedule.grade.id != user.grade.id and user.role == 'student' %}student-schedule{% endif %}">
+                            <td>{{ schedule.grade.name }}</td>
+                            <td>{{ schedule.get_day_of_week_display }}</td>
+                            <td>{{ schedule.start_time }}</td>
+                            <td>{{ schedule.end_time }}</td>
+                            <td>{{ schedule.get_subject_display }}</td>
+                            {% if can_edit %}
+                                <td>
+                                    <a href="{% url 'schedule_update' schedule.id %}" class="button">Edit</a>
+                                    <a href="{% url 'schedule_delete' schedule.id %}" class="button" onclick="return confirm('Are you sure you want to delete this schedule?');">Delete</a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'index' %}">Выйти</a>
+        {% else %}
+            <p>Нет расписаний</p><a href="{% url 'index' %}">Выйти</a>
+        {% endif %}
+    {% else %}
+        <p>Вы не зарегистрированы</p><a href="{% url 'index' %}">Выйти</a>
+    {% endif %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const showAllButton = document.getElementById('show-all-schedule');
+            const showMyButton = document.getElementById('show-my-schedule');
+            const studentScheduleRows = document.querySelectorAll('.student-schedule');
+
+            if (showAllButton && showMyButton) {
+                showAllButton.addEventListener('click', function () {
+                    studentScheduleRows.forEach(row => {
+                        row.classList.remove('hidden');
+                    });
+                    showAllButton.classList.add('hidden');
+                    showMyButton.classList.remove('hidden');
+                });
+
+                showMyButton.addEventListener('click', function () {
+                    studentScheduleRows.forEach(row => {
+                        row.classList.add('hidden');
+                    });
+                    showMyButton.classList.add('hidden');
+                    showAllButton.classList.remove('hidden');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

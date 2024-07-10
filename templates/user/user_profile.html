@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{% static 'css/user_profile.css' %}">
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            <img src="profile-picture.jpg" alt="Profile Picture" class="profile-picture">
+            <h1 class="user-name">{{ user.username }}</h1>
+            <p class="user-role">{{ user.role }}</p>
+        </div>
+        <div class="profile-body">
+            <div class="profile-info">
+                <a href="{% url 'logout' %}">Выйти</a>
+                <a href="{% url 'profile_update' pk=user.id %}">Редактировать профиль</a>
+                <h2>Personal Information</h2>
+                <p><strong>Имя:</strong>{{ user.first_name }}</p>
+                <p><strong>Фамилия:</strong>{{ user.last_name }}</p>
+                <p><strong>Email:</strong>{{ user.email }}</p>
+                <p><strong>Phone:</strong></p>
+                <p><strong>Address:</strong> 123 Main St, Anytown, USA</p>
+            </div>
+            <div class="profile-activity">
+                {% if user.role == 'teacher' %}<a href="{% url 'create_group' %}">Create group</a>{% endif %}
+                <h2>Recent Activity</h2>
+                <ul>
+                    <li>Completed assignment "Math Homework 1"</li>
+                    <li>Attended class "Biology 101"</li>
+                    <li>Posted in forum "Science Club"</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

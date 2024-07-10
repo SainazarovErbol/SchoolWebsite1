@@ -1,0 +1,95 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block nav %}
+
+<link rel="stylesheet" href="{% static 'css/teacher_detail.css' %}">
+
+<nav id="navmenu" class="navmenu">
+<ul>
+  <li><a href="{% url 'index' %}">Главное<br></a></li>
+  <!-- <li><a href="about.html">О школе</a></li> -->
+  <li class="dropdown"><a href="#" class="active"><span>Школа⬇</span> <i class=""></i></a>
+    <ul>
+      <li><a href="{% url 'about' %}">О нас</a></li>
+      <li><a href="{% url 'list_teacher' %}" class="active">Администрация и педогагический состав</a></li>
+    </ul>
+  </li>
+  <li class="dropdown"><a href="#"><span>Учебный процесс</span><i class=""></i></a>
+    <ul>
+      <li><a href="{% url 'student_list' %}">Активные ученики</a></li>
+        <li><a href="{% url 'schedule_list' %}">Расписание</a></li>
+    </ul>
+  </li>
+  <li><a href="{% url 'gallery_list' %}">Галерея</a></li>
+  <li><a href="{% url 'post_list' %}">Новасти</a></li>
+  {% if user.joined_groups >= 1 or user.taught_groups >= 1  %}
+      <li class="dropdown"><a href=""><span>Группы</span></a>
+          <ul>
+              {% if user.joined_groups.all or user.taught_groups.all %}
+                {% for group in user.joined_groups.all %}
+                <li><a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></li>
+                {% endfor %}
+                {% for group in user.taught_groups.all %}
+                <li><a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></li>
+                {% endfor %}
+              {% else %}
+
+              {% endif %}
+          </ul>
+      </li>
+  {% endif %}
+
+  {% if user.is_superuser %}
+    <li class="dropdown"><a><span>Акаунт</span></a>
+        <ul>
+            <li>
+                <a href="{% url 'profile' pk=user.id %}">Профиль</a>
+{#                    <a href="{% provider_login_url 'google' %}">Войти через Google</a>#}
+            </li>
+            <li><a  href="{% url 'register' %}">Создать пользователя</a></li>
+        </ul>
+      </li>
+  {% else %}
+    {% if user.is_authenticated %}
+      <li><a href="{% url 'profile' pk=user.id %}"><span>Профиль</span></a>
+
+    {% else %}
+      <li class="dropdown"><a><span>Акаунт</span></a>
+        <ul>
+            <li>
+            <a  href="{% url 'login' %}">Войти</a>
+            </li>
+        </ul>
+      </li>
+    {% endif %}
+  {% endif %}
+
+    <!--  <li><a href="contact.html">Contact</a></li> -->
+</ul>
+<i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+</nav>
+
+{% endblock nav %}
+
+{% block main_content %}
+<div class="teacher-content">
+    <div class="container">
+        <img src="{{ teacher.image.url }}" alt="{{ teacher.first_name }} {{ teacher.last_name }}">
+        <h4>{{ teacher.first_name }} {{ teacher.last_name }}</h4>
+
+        <p>Предмет: {{ teacher.subjects }}</p>
+        <p>Опыт: {{ teacher.experience }} лет</p>
+        <p>{{ teacher.description }}</p>
+        <p>Возраст: {{ teacher.age }}</p>
+
+        {% if user.is_superuser %}
+            <a href="{% url 'teacher_update' pk=teacher.id %}">Update</a>
+            <a href="{% url 'teacher_delete' pk=teacher.id %}">Delete</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block map %}
+{% endblock %}

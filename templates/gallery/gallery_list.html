@@ -1,0 +1,111 @@
+{% extends 'index.html' %}
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery</title>
+
+</head>
+{% block nav %}
+<link rel="stylesheet" href="{% static 'css/gallery_list.css' %}">
+<nav id="navmenu" class="navmenu">
+<ul>
+  <li><a href="{% url 'index' %}">Главное<br></a></li>
+  <!-- <li><a href="about.html">О школе</a></li> -->
+  <li class="dropdown"><a href="#" class="active"><span>Школа⬇</span> <i class=""></i></a>
+    <ul>
+      <li><a href="{% url 'about' %}" class="active">О нас</a></li>
+      <li><a href="{% url 'list_teacher' %}">Администрация и педогагический состав</a></li>
+    </ul>
+  </li>
+  <li class="dropdown"><a href="#"><span>Учебный процесс</span><i class=""></i></a>
+    <ul>
+      <li><a href="{% url 'student_list' %}">Активные ученики</a></li>
+        <li><a href="{% url 'schedule_list' %}">Расписание</a></li>
+    </ul>
+  </li>
+  <li><a href="{% url 'gallery_list' %}">Галерея</a></li>
+  <li><a href="{% url 'post_list' %}">Новасти</a></li>
+  {% if user.joined_groups >= 1 or user.taught_groups >= 1  %}
+      <li class="dropdown"><a href=""><span>Группы</span></a>
+          <ul>
+              {% if user.joined_groups.all or user.taught_groups.all %}
+                {% for group in user.joined_groups.all %}
+                <li><a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></li>
+                {% endfor %}
+                {% for group in user.taught_groups.all %}
+                <li><a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></li>
+                {% endfor %}
+              {% else %}
+
+              {% endif %}
+          </ul>
+      </li>
+  {% endif %}
+
+  {% if user.is_superuser %}
+    <li class="dropdown"><a><span>Акаунт</span></a>
+        <ul>
+            <li>
+                <a href="{% url 'profile' pk=user.id %}">Профиль</a>
+{#                    <a href="{% provider_login_url 'google' %}">Войти через Google</a>#}
+            </li>
+            <li><a  href="{% url 'register' %}">Создать пользователя</a></li>
+        </ul>
+      </li>
+  {% else %}
+    {% if user.is_authenticated %}
+      <li><a href="{% url 'profile' pk=user.id %}"><span>Профиль</span></a>
+
+    {% else %}
+      <li class="dropdown"><a><span>Акаунт</span></a>
+        <ul>
+            <li>
+            <a  href="{% url 'login' %}">Войти</a>
+            </li>
+        </ul>
+      </li>
+    {% endif %}
+  {% endif %}
+
+    <!--  <li><a href="contact.html">Contact</a></li> -->
+</ul>
+<i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+</nav>
+
+{% endblock nav %}
+
+
+{% block main_content %}
+    {% if user.is_superuser  %}
+        <div style="text-align: center; margin-bottom: 20px;">
+            <a href="{% url 'gallery_create' %}" class="btn btn-primary">Create Gallery</a>
+        </div>
+    {% endif %}
+
+
+    <div class="gallery-container">
+    <h3 class="gallery-title">Галерея</h3>
+    <div class="gallery-grid">
+        {% for gallery in galleries %}
+        <div class="gallery-item">
+            <a href="{% url 'gallery_detail' gallery.pk %}">
+                <strong>{{ gallery.title }}</strong>
+            </a>
+            <img src="{{ gallery.GalleryImages.first.image.url }}" alt="{{ gallery.title }}">
+             {% if user.is_superuser %}
+                <div class="gallery-actions">
+                    <a href="{% url 'gallery_update' pk=gallery.id %}" class="btn btn-update">Update</a>
+                    <a href="{% url 'gallery_delete' pk=gallery.id %}" class="btn btn-delete">Delete</a>
+                </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{#    <a href="{% url '' %}">Create New Gallery</a>#}
+{% endblock %}
+{% block map %}
+
+{% endblock map%}

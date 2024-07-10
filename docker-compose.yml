@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  school_website:
+    image: school_website
+    volumes:
+      - static_volume:/app/static
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+
+
+volumes:
+  static_volume:
+

@@ -1,0 +1,165 @@
+﻿{% extends 'index.html' %}
+
+{% block nav %}
+
+<nav id="navmenu" class="navmenu">
+<ul>
+  <li><a href="{% url 'index' %}">Главное<br></a></li>
+  <!-- <li><a href="about.html">О школе</a></li> -->
+  <li class="dropdown"><a href="#"><span>Школа⬇</span> <i class=""></i></a>
+    <ul>
+      <li><a href="{% url 'about' %}">О нас</a></li>
+      <li><a href="{% url 'list_teacher' %}">Администрация и педогагический состав</a></li>
+    </ul>
+  </li>
+  <li class="dropdown"><a href="#"><span>Учебный процесс</span><i class=""></i></a>
+    <ul>
+      <li><a href="{% url 'student_list' %}">Активные ученики</a></li>
+        <li><a href="{% url 'schedule_list' %}">Расписание</a></li>
+    </ul>
+  </li>
+  <li><a href="{% url 'gallery_list' %}">Галерея</a></li>
+  <li><a href="{% url 'post_list' %}" class="active">Новасти</a></li>
+  {% if user.joined_groups >= 1 or user.taught_groups >= 1  %}
+      <li class="dropdown"><a href=""><span>Группы</span></a>
+          <ul>
+              {% if user.joined_groups.all or user.taught_groups.all %}
+                {% for group in user.joined_groups.all %}
+                <li><a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></li>
+                {% endfor %}
+                {% for group in user.taught_groups.all %}
+                <li><a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></li>
+                {% endfor %}
+              {% else %}
+
+              {% endif %}
+          </ul>
+      </li>
+  {% endif %}
+
+  {% if user.is_superuser %}
+    <li class="dropdown"><a><span>Акаунт</span></a>
+        <ul>
+            <li>
+                <a href="{% url 'profile' pk=user.id %}">Профиль</a>
+{#                    <a href="{% provider_login_url 'google' %}">Войти через Google</a>#}
+            </li>
+            <li><a  href="{% url 'register' %}">Создать пользователя</a></li>
+        </ul>
+      </li>
+  {% else %}
+    {% if user.is_authenticated %}
+      <li><a href="{% url 'profile' pk=user.id %}"><span>Профиль</span></a>
+
+    {% else %}
+      <li class="dropdown"><a><span>Акаунт</span></a>
+        <ul>
+            <li>
+            <a  href="{% url 'login' %}">Войти</a>
+            </li>
+        </ul>
+      </li>
+    {% endif %}
+  {% endif %}
+
+    <!--  <li><a href="contact.html">Contact</a></li> -->
+</ul>
+<i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+</nav>
+
+{% endblock nav %}
+
+
+{% block main_content %}
+<main class="main">
+
+
+  <!-- Page Title -->
+  <div class="page-title" data-aos="fade">
+    <div class="heading">
+      <div class="container">
+        <div class="row d-flex justify-content-center text-center">
+          <div class="col-lg-8">
+            <h1>Events</h1>
+            <p class="mb-0">Odio et unde deleniti. Deserunt numquam exercitationem. Officiis quo odio sint voluptas consequatur ut a odio voluptatem. Sit dolorum debitis veritatis natus dolores. Quasi ratione sint. Sit quaerat ipsum dolorem.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav class="breadcrumbs">
+      <div class="container">
+        <ol>
+          <li><a href="/">Главное</a></li>
+          <li class="current">Новасти</li>
+
+        </ol>
+
+      </div>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <!-- Events Section -->
+  <section id="events" class="events section">
+
+    <div class="container" data-aos="fade-up">
+        <div class="search-container">
+            {% include 'search.html' %}
+        </div>
+      <div class="row">
+
+
+
+        {% for post in posts %}
+        <div class="col-md-6 d-flex align-items-stretch">
+          <div class="card">
+            <div class="card-img" >
+              
+              <img src="{{ post.PostImage.first.image.url }}" alt="|" style="width: auto; height: auto;" >
+              
+            </div>
+            
+            <div class="card-body">
+              <h5 class="card-title"><a href="{% url 'post_detail' post.id  %}">{{ post.title }}</a></h5>
+              <p class="fst-italic text-center">{{ post.description|truncatewords:"25"|safe }}</p>
+              <p class="card-text">Дата публикации: {{ post.created_at.date }}</p>
+              
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+
+      <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?{% if filter.form.data %}{{ filter.form.data.urlencode }}&amp;{% endif %}page=1">&laquo; first</a>
+                    <a href="?{% if filter.form.data %}{{ filter.form.data.urlencode }}&amp;{% endif %}page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+
+
+                {% for page_num in page_obj.paginator.page_range %}
+                    <a href="?page={{ page_num }}">{{ page_num }}</a>
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <a href="?{% if filter.form.data %}{{ filter.form.data.urlencode }}&amp;{% endif %}page={{ page_obj.next_page_number }}">next</a>
+                    <a href="?{% if filter.form.data %}{{ filter.form.data.urlencode }}&amp;{% endif %}page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+
+        </div>
+
+
+
+    </div>
+
+  </section><!-- /Events Section -->
+<span class="current" style="text-align: center">
+    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+</span>
+</main>
+{% endblock %}
+{% block map %}
+
+{% endblock %}

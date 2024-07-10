@@ -1,0 +1,323 @@
+﻿{% extends 'index.html' %}
+
+{% block nav %}
+
+<nav id="navmenu" class="navmenu">
+<ul>
+  <li><a href="{% url 'index' %}">Главное<br></a></li>
+  <!-- <li><a href="about.html">О школе</a></li> -->
+  <li class="dropdown"><a href="#" class="active"><span>Школа⬇</span> <i class=""></i></a>
+    <ul>
+      <li><a href="{% url 'about' %}" class="active">О нас</a></li>
+      <li><a href="{% url 'list_teacher' %}">Администрация и педогагический состав</a></li>
+    </ul>
+  </li>
+  <li class="dropdown"><a href="#"><span>Учебный процесс</span><i class=""></i></a>
+    <ul>
+      <li><a href="{% url 'student_list' %}">Активные ученики</a></li>
+        <li><a href="{% url 'schedule_list' %}">Расписание</a></li>
+    </ul>
+  </li>
+  <li><a href="{% url 'gallery_list' %}">Галерея</a></li>
+  <li><a href="{% url 'post_list' %}">Новасти</a></li>
+  {% if user.joined_groups >= 1 or user.taught_groups >= 1  %}
+      <li class="dropdown"><a href=""><span>Группы</span></a>
+          <ul>
+              {% if user.joined_groups.all or user.taught_groups.all %}
+                {% for group in user.joined_groups.all %}
+                <li><a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></li>
+                {% endfor %}
+                {% for group in user.taught_groups.all %}
+                <li><a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></li>
+                {% endfor %}
+              {% else %}
+
+              {% endif %}
+          </ul>
+      </li>
+  {% endif %}
+
+  {% if user.is_superuser %}
+    <li class="dropdown"><a><span>Акаунт</span></a>
+        <ul>
+            <li>
+                <a href="{% url 'profile' pk=user.id %}">Профиль</a>
+{#                    <a href="{% provider_login_url 'google' %}">Войти через Google</a>#}
+            </li>
+            <li><a  href="{% url 'register' %}">Создать пользователя</a></li>
+        </ul>
+      </li>
+  {% else %}
+    {% if user.is_authenticated %}
+      <li><a href="{% url 'profile' pk=user.id %}"><span>Профиль</span></a>
+
+    {% else %}
+      <li class="dropdown"><a><span>Акаунт</span></a>
+        <ul>
+            <li>
+            <a  href="{% url 'login' %}">Войти</a>
+            </li>
+        </ul>
+      </li>
+    {% endif %}
+  {% endif %}
+
+    <!--  <li><a href="contact.html">Contact</a></li> -->
+</ul>
+<i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+</nav>
+
+{% endblock nav %}
+
+{% block main_content %}
+<main class="main">
+
+<!-- Page Title -->
+<div class="page-title" data-aos="fade">
+<div class="heading">
+<div class="container">
+  <div class="row d-flex justify-content-center text-center">
+    <div class="col-lg-8">
+      <h1 class="">О школе<br></h1>
+      <p class="mb-0">Наша школа-это места где каждый ученик развивается и каждый день узнает что-то новое</p>
+    </div>
+  </div>
+</div>
+</div>
+<nav class="breadcrumbs">
+<div class="container">
+  <ol>
+    <li><a href="/">Главное</a></li>
+    <li class="current">О школе<br></li>
+  </ol>
+</div>
+</nav>
+</div><!-- End Page Title -->
+
+<!-- About Us Section -->
+<section id="about-us" class="section about-us">
+
+<div class="container">
+
+<div class="row gy-4">
+
+  <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="100">
+    <img src="../media/img/director.jpg" class="img-fluid" alt="">
+  </div>
+
+  <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
+    <h3>Уважаемые родители и учащиеся!</h3>
+    <p class="fst-italic">
+      От имени нашей школы я рад приветствовать вас и представить уникальные возможности, которые мы предлагаем для всестороннего развития наших учеников.
+    </p>
+    <ul>
+      <li><h5>Опытные учителя</h5></li>
+      <li><h5>Внеклассные мероприятия</h5></li>
+      <li><h5>Подготовка к будущему</h5></li>
+      <li><h5>Психологическая поддержка</h5></li>
+    </ul>
+    <p>С уважением, Гулшан Карабековна</p>
+    <a>Директор школы</a>
+  </div>
+</div>
+
+</div>
+
+</section><!-- /About Us Section -->
+
+<!-- Counts Section -->
+<section id="counts" class="section counts">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <div class="row gy-4">
+
+      <div class="col-lg-3 col-md-6">
+        <div class="stats-item text-center w-100 h-100">
+          <span data-purecounter-start="0" data-purecounter-end="2707" data-purecounter-duration="1" class="purecounter"></span>
+          <p class="">Учеников</p>
+        </div>
+      </div><!-- End Stats Item -->
+
+      <div class="col-lg-3 col-md-6">
+        <div class="stats-item text-center w-100 h-100">
+          <span data-purecounter-start="0" data-purecounter-end="12" data-purecounter-duration="1" class="purecounter"></span>
+          <p class="">Кружков и секции</p>
+        </div>
+      </div><!-- End Stats Item -->
+
+      <div class="col-lg-3 col-md-6">
+        <div class="stats-item text-center w-100 h-100">
+          <span data-purecounter-start="0" data-purecounter-end="42" data-purecounter-duration="1" class="purecounter"></span>
+          <p class="">Новастей</p>
+        </div>
+      </div><!-- End Stats Item -->
+
+      <div class="col-lg-3 col-md-6">
+        <div class="stats-item text-center w-100 h-100">
+          <span data-purecounter-start="0" data-purecounter-end="147" data-purecounter-duration="1" class="purecounter"></span>
+          <p class="">Учителей</p>
+        </div>
+      </div><!-- End Stats Item -->
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- /Counts Section -->
+
+<!-- Testimonials Section -->
+<section id="testimonials" class="testimonials section">
+
+<!-- Section Title -->
+<div class="container section-title" data-aos="fade-up" style="margin-bottom: 40px; text-align: center">
+    <p>Опытные учителя</p>
+    <h4>Наши учителя – это опытные и высококвалифицированные специалисты, многие из которых имеют значительный стаж работы и престижные награды в своей области. Мы предлагаем широкий спектр предметов и углубленных курсов, чтобы каждый ученик мог раскрыть свой академический потенциал.</h4>
+</div>
+
+<div class="container section-title" data-aos="fade-up" style="margin-bottom: 40px; text-align: center">
+<p>Внеклассные мероприятия</p>
+    <h4>Мы считаем, что всестороннее развитие невозможно без участия в внеклассных мероприятиях. Наши ученики могут выбирать из множества кружков и секций: спортивные команды, театральные кружки, музыкальные студии, клубы по интересам и многое другое. Это позволяет детям развивать свои таланты, находить новых друзей и учиться работать в команде.</h4>
+</div>
+
+<div class="container section-title" data-aos="fade-up" style="margin-bottom: 40px; text-align: center">
+    <p>Подготовка к будущему</p>
+    <h4>Мы готовим наших учеников к успешному будущему, не только давая им глубокие знания, но и развивая важные навыки, такие как критическое мышление, творческое решение задач и социальные компетенции. Наши выпускники успешно поступают в ведущие вузы и достигают высоких результатов в избранных профессиях.</h4>
+</div>
+
+<div class="container section-title" data-aos="fade-up" style="margin-bottom: 40px; text-align: center">
+<p>Психологическая поддержка</p>
+    <h4>Школьные психологи всегда готовы помочь детям и родителям в решении личных и учебных вопросов. Мы стремимся создать комфортную и безопасную атмосферу для каждого учащегося.</h4>
+</div>
+
+<!-- End Section Title -->
+{#<div class="swiper">#}
+{#  <script type="application/json" class="swiper-config">#}
+{#    {#}
+{#      "loop": true,#}
+{#      "speed": 600,#}
+{#      "autoplay": {#}
+{#        "delay": 5000#}
+{#      },#}
+{#      "slidesPerView": "auto",#}
+{#      "pagination": {#}
+{#        "el": ".swiper-pagination",#}
+{#        "type": "bullets",#}
+{#        "clickable": true#}
+{#      },#}
+{#      "breakpoints": {#}
+{#        "320": {#}
+{#          "slidesPerView": 1,#}
+{#          "spaceBetween": 40#}
+{#        },#}
+{#        "1200": {#}
+{#          "slidesPerView": 2,#}
+{#          "spaceBetween": 20#}
+{#        }#}
+{#      }#}
+{#    }#}
+{#  </script>#}
+{#  <div class="swiper-wrapper">#}
+{##}
+{#    <div class="swiper-slide">#}
+{#      <div class="testimonial-wrap">#}
+{#        <div class="testimonial-item">#}
+{#          <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">#}
+{#          <h3>Saul Goodman</h3>#}
+{#          <h4>Ceo &amp; Founder</h4>#}
+{#          <div class="stars">#}
+{#            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>#}
+{#          </div>#}
+{#          <p>#}
+{#            <i class="bi bi-quote quote-icon-left"></i>#}
+{#            <span>Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.</span>#}
+{#            <i class="bi bi-quote quote-icon-right"></i>#}
+{#          </p>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div><!-- End testimonial item -->#}
+{##}
+{#    <div class="swiper-slide">#}
+{#      <div class="testimonial-wrap">#}
+{#        <div class="testimonial-item">#}
+{#          <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">#}
+{#          <h3>Sara Wilsson</h3>#}
+{#          <h4>Designer</h4>#}
+{#          <div class="stars">#}
+{#            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>#}
+{#          </div>#}
+{#          <p>#}
+{#            <i class="bi bi-quote quote-icon-left"></i>#}
+{#            <span>Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.</span>#}
+{#            <i class="bi bi-quote quote-icon-right"></i>#}
+{#          </p>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div><!-- End testimonial item -->#}
+{##}
+{#    <div class="swiper-slide">#}
+{#      <div class="testimonial-wrap">#}
+{#        <div class="testimonial-item">#}
+{#          <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">#}
+{#          <h3>Jena Karlis</h3>#}
+{#          <h4>Store Owner</h4>#}
+{#          <div class="stars">#}
+{#            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>#}
+{#          </div>#}
+{#          <p>#}
+{#            <i class="bi bi-quote quote-icon-left"></i>#}
+{#            <span>Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.</span>#}
+{#            <i class="bi bi-quote quote-icon-right"></i>#}
+{#          </p>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div><!-- End testimonial item -->#}
+{##}
+{#    <div class="swiper-slide">#}
+{#      <div class="testimonial-wrap">#}
+{#        <div class="testimonial-item">#}
+{#          <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">#}
+{#          <h3>Matt Brandon</h3>#}
+{#          <h4>Freelancer</h4>#}
+{#          <div class="stars">#}
+{#            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>#}
+{#          </div>#}
+{#          <p>#}
+{#            <i class="bi bi-quote quote-icon-left"></i>#}
+{#            <span>Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.</span>#}
+{#            <i class="bi bi-quote quote-icon-right"></i>#}
+{#          </p>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div><!-- End testimonial item -->#}
+{##}
+{#    <div class="swiper-slide">#}
+{#      <div class="testimonial-wrap">#}
+{#        <div class="testimonial-item">#}
+{#          <img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">#}
+{#          <h3>John Larson</h3>#}
+{#          <h4>Entrepreneur</h4>#}
+{#          <div class="stars">#}
+{#            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>#}
+{#          </div>#}
+{#          <p>#}
+{#            <i class="bi bi-quote quote-icon-left"></i>#}
+{#            <span>Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.</span>#}
+{#            <i class="bi bi-quote quote-icon-right"></i>#}
+{#          </p>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div><!-- End testimonial item -->#}
+{##}
+{#  </div>#}
+{#  <div class="swiper-pagination"></div>#}
+{#</div>#}
+
+</div>
+
+</section><!-- /Testimonials Section -->
+
+</main>
+{% endblock %}
+ 

@@ -1,0 +1,126 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block nav %}
+<link rel="stylesheet" href="{% static 'css/gallery_detail.css' %}">
+
+<nav id="navmenu" class="navmenu">
+<ul>
+  <li><a href="{% url 'index' %}">Главное<br></a></li>
+  <!-- <li><a href="about.html">О школе</a></li> -->
+  <li class="dropdown"><a href="#" class="active"><span>Школа⬇</span> <i class=""></i></a>
+    <ul>
+      <li><a href="{% url 'about' %}" class="active">О нас</a></li>
+      <li><a href="{% url 'list_teacher' %}">Администрация и педогагический состав</a></li>
+    </ul>
+  </li>
+  <li class="dropdown"><a href="#"><span>Учебный процесс</span><i class=""></i></a>
+    <ul>
+      <li><a href="{% url 'student_list' %}">Активные ученики</a></li>
+        <li><a href="{% url 'schedule_list' %}">Расписание</a></li>
+    </ul>
+  </li>
+  <li><a href="{% url 'gallery_list' %}">Галерея</a></li>
+  <li><a href="{% url 'post_list' %}">Новасти</a></li>
+  {% if user.joined_groups >= 1 or user.taught_groups >= 1  %}
+      <li class="dropdown"><a href=""><span>Группы</span></a>
+          <ul>
+              {% if user.joined_groups.all or user.taught_groups.all %}
+                {% for group in user.joined_groups.all %}
+                <li><a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></li>
+                {% endfor %}
+                {% for group in user.taught_groups.all %}
+                <li><a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></li>
+                {% endfor %}
+              {% else %}
+
+              {% endif %}
+          </ul>
+      </li>
+  {% endif %}
+
+  {% if user.is_superuser %}
+    <li class="dropdown"><a><span>Акаунт</span></a>
+        <ul>
+            <li>
+                <a href="{% url 'profile' pk=user.id %}">Профиль</a>
+{#                    <a href="{% provider_login_url 'google' %}">Войти через Google</a>#}
+            </li>
+            <li><a  href="{% url 'register' %}">Создать пользователя</a></li>
+        </ul>
+      </li>
+  {% else %}
+    {% if user.is_authenticated %}
+      <li><a href="{% url 'profile' pk=user.id %}"><span>Профиль</span></a>
+
+    {% else %}
+      <li class="dropdown"><a><span>Акаунт</span></a>
+        <ul>
+            <li>
+            <a  href="{% url 'login' %}">Войти</a>
+            </li>
+        </ul>
+      </li>
+    {% endif %}
+  {% endif %}
+
+    <!--  <li><a href="contact.html">Contact</a></li> -->
+</ul>
+<i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+</nav>
+
+{% endblock nav %}
+
+{% block main_content %}
+<div class="gallery-detail-container">
+    <h1 class="gallery-title"><strong>{{ gallery.title }}</strong></h1>
+    <p class="gallery-description">{{ gallery.description }}</p>
+
+    <div class="gallery-images">
+        {% for gallery_image in gallery.GalleryImages.all %}
+            <img src="{{ gallery_image.image.url }}" class="gallery-image" onclick="openLightbox(this)">
+        {% endfor %}
+    </div>
+
+    <div class="gallery-videos">
+        {% for gallery_video in gallery.GalleryVideos.all %}
+            <video class="gallery-video" controls>
+                <source src="{{ gallery_video.video_file.url }}" type="video/mp4">
+                Ваш браузер не поддерживает видео в формате MP4.
+            </video>
+        {% endfor %}
+    </div>
+
+    {% if user.is_superuser %}
+        <div class="gallery-actions">
+            <a href="{% url 'gallery_update' pk=gallery.id %}" class="btn btn-update">Update</a>
+            <a href="{% url 'gallery_delete' pk=gallery.id %}" class="btn btn-delete">Delete</a>
+        </div>
+    {% endif %}
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox-modal" class="lightbox">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+    </div>
+</div>
+
+<script>
+    function openLightbox(element) {
+        document.getElementById('lightbox-modal').style.display = 'block';
+        document.getElementById('lightbox-img').src = element.src;
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightbox-modal').style.display = 'none';
+    }
+</script>
+
+
+
+
+    <script src="{% static 'js/image_retrieve.js' %}"></script>
+{% endblock %}
+
+{% block map %}
+{% endblock %}

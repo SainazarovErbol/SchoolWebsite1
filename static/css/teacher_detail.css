@@ -1,0 +1,159 @@
+
+.teacher-content .container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    align-items: center;
+}
+
+.teacher-content .container img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.teacher-content .container h4 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.teacher-content .container p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 8px;
+    line-height: 1.8;
+}
+
+.teacher-content .container a {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.teacher-content .container a:hover {
+    background-color: #0056b3;
+}
+
+/* Basic reset and layout adjustments */
+/* Basic reset and layout adjustments */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container styling */
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+/* Image styling */
+.profile-image-container {
+    margin-bottom: 20px;
+}
+
+.profile-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Details styling */
+.profile-details-container {
+    text-align: center;
+}
+
+.profile-name {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.profile-position {
+    font-size: 16px;
+    color: #666;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.profile-age a {
+    font-size: 14px;
+    color: #555;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.profile-bio p {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+/* Contact styling */
+.profile-contact a {
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 10px;
+    transition: color 0.3s ease;
+}
+
+.profile-contact a:hover {
+    color: #0056b3;
+}
+
+/* Actions styling */
+.profile-actions {
+    margin-top: 20px;
+}
+
+.profile-actions .btn-update,
+.profile-actions .btn-delete {
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin: 5px;
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.profile-actions .btn-update {
+    background-color: #28a745;
+}
+
+.profile-actions .btn-update:hover {
+    background-color: #218838;
+}
+
+.profile-actions .btn-delete {
+    background-color: #dc3545;
+}
+
+.profile-actions .btn-delete:hover {
+    background-color: #c82333;
+}

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form method="post" action="{% url 'profile' pk=user.id %}">
+        {% csrf_token %}
+        <p>Имя:{{ form.first_name }}</p>
+        <p>Фамилия:{{ form.last_name }}</p>
+        <p>Отчетсво:{{ form.middle_name }}</p>
+        <button type="submit" >Изменить </button>
+        <a href="{% url 'profile' pk=user.id %}">Cancel</a>
+    </form>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>{{ group.name }}</h2>
+      <p>Teacher: {{ group.teacher.username }}</p>
+      <h3>Students:</h3>
+      <ul>
+        {% for student in group.students.all %}
+          <li>
+            {{ student.username }}
+            {% if request.user == group.teacher %}
+              <form action="{% url 'remove_student_from_group' group.id student.id %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Remove</button>
+              </form>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+      {% if request.user == group.teacher %}
+        <a href="{% url 'add_student_to_group' group.id %}">Add Student</a>
+      {% endif %}
+      <h3>Tasks:</h3>
+      <ul>
+        {% for task in group.tasks.all %}
+          <li><a href="{% url 'task_detail' task.id %}">{{ task.title }}</a></li>
+        {% endfor %}
+      </ul>
+      <a href="../../../tasks/create_task/">Create task</a>
+</body>
+</html>

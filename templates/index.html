@@ -1,0 +1,360 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+{% load socialaccount %}
+{% load static %}
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Школа №5 имени В.И.Ленина</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Favicons -->
+  <link href="../media/icons/school_ico.png" rel="icon">
+  <link href="../media/icons/school_ico.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="">
+  <link href="{% static 'css/css2.css' %}" rel="stylesheet">
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'css/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="{% static '/css/main.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/post_search.css' %}">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="{% static 'css/post_table.css' %}">
+  <!-- =======================================================
+  * Template Name: Mentor
+  * Template URL: https://bootstrapmade.com/mentor-free-education-bootstrap-theme/
+  * Updated: May 18 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body class="index-page">
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+      <a href="/" class="logo d-flex align-items-center me-auto">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <img src="../media/icons/school_ico.png" alt="" >
+        <h1 class="sitename"> Школьный портал</h1>
+      </a>
+      {% block nav %}
+      
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="{% url 'index' %}" class="active">Главное<br></a></li>
+          <!-- <li><a href="about.html">О школе</a></li> -->
+          <li class="dropdown"><a href="#"><span>Школа⬇</span> <i class=""></i></a>
+            <ul>
+              <li><a href="{% url 'about' %}">О нас</a></li>
+              <li><a href="{% url 'list_teacher' %}">Администрация и педогагический состав</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"><a href="#"><span>Учебный процесс</span><i class=""></i></a>
+            <ul>
+              <li><a href="{% url 'student_list' %}">Активные ученики</a></li>
+                <li><a href="{% url 'schedule_list' %}">Расписание</a></li>
+            </ul>
+          </li>
+          <li><a href="{% url 'gallery_list' %}">Галерея</a></li>
+          <li><a href="{% url 'post_list' %}">Новасти</a></li>
+          {% if user.joined_groups >= 1 or user.taught_groups >= 1  %}
+              <li class="dropdown"><a href=""><span>Группы</span></a>
+                  <ul>
+                      {% if user.joined_groups.all or user.taught_groups.all %}
+                        {% for group in user.joined_groups.all %}
+                        <li><a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></li>
+                        {% endfor %}
+                        {% for group in user.taught_groups.all %}
+                        <li><a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></li>
+                        {% endfor %}
+                      {% else %}
+
+                      {% endif %}
+                  </ul>
+              </li>
+          {% endif %}
+
+          {% if user.is_superuser %}
+            <li class="dropdown"><a><span>Акаунт</span></a>
+                <ul>
+                    <li>
+                        <a href="{% url 'profile' pk=user.id %}">Профиль</a>
+{#                    <a href="{% provider_login_url 'google' %}">Войти через Google</a>#}
+                    </li>
+                    <li><a  href="{% url 'register' %}">Создать пользователя</a></li>
+                </ul>
+              </li>
+          {% else %}
+            {% if user.is_authenticated %}
+              <li><a href="{% url 'profile' pk=user.id %}"><span>Профиль</span></a>
+
+            {% else %}
+              <li class="dropdown"><a><span>Акаунт</span></a>
+                <ul>
+                    <li>
+                    <a  href="{% url 'login' %}">Войти</a>
+                    </li>
+                </ul>
+              </li>
+            {% endif %}
+          {% endif %}
+
+            <!--  <li><a href="contact.html">Contact</a></li> -->
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+      {% endblock nav %}
+    
+    </div>
+
+  </header>
+  {% block main_content %}
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section">
+
+      <img src="../media/img/school.jpg" alt="" data-aos="fade-in">
+
+      <div class="container">
+        <h2 data-aos="fade-up" data-aos-delay="100" class="">Добро пожаловать в школу:<br>№5 имени В.И.Ленина</h2>
+
+      </div>
+
+    </section><!-- /Hero Section -->
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="100">
+            <img src="../media/img/director.jpg" class="img-fluid" alt="">
+          </div>
+
+          <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
+            <h3>Уважаемые родители и учащиеся!</h3>
+            <p class="fst-italic">
+              От имени нашей школы я рад приветствовать вас и представить уникальные возможности, которые мы предлагаем для всестороннего развития наших учеников.
+            </p>
+            <ul>
+              <li><h5>Опытные учителя</h5></li>
+              <li><h5>Внеклассные мероприятия</h5></li>
+              <li><h5>Подготовка к будущему</h5></li>
+              <li><h5>Психологическая поддержка</h5></li>
+            </ul>
+            <p>С уважением, Гулшан Карабековна</p>
+            <a>Директор школы</a>
+          </div>
+
+        </div>
+
+
+
+
+        </div>
+
+      </div>
+
+    </section><!-- /About Section -->
+
+
+    <!-- Counts Section -->
+    {% include 'we_in_count.html' %}
+    <!-- /Counts Section -->
+
+    <!-- Why Us Section -->
+    <section id="why-us" class="section why-us">
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="why-box">
+              <h3>Почему вы должны выбрать нашу школу?</h3>
+              <p>
+                Выбор школы - это один из самых важный решении для будущего вашего ребенка, и со 100% вероятностю будущее ребенка решит школа в каторый он поступит. Вот несколько причин что бы выбрать нас:  
+              </p>
+              <div class="text-center">
+                <a href="{% url 'about' %}" class="more-btn"><span>Узнать больше</span> </a>
+              </div>
+            </div>
+          </div><!-- End Why Box -->
+
+          <div class="col-lg-8 d-flex align-items-stretch">
+            <div class="row gy-4" data-aos="fade-up" data-aos-delay="200">
+
+              <div class="col-xl-4">
+                <div class="icon-box d-flex flex-column justify-content-center align-items-center">
+                  <img src="../media/icons/Mask Group.jpg" alt="">
+                  <h4>Продуктивность обучения</h4>
+                  <p>В нашей школе мы уделяем особое внимание уникальным способам, которые помогут вам учиться более эффективно и с удовольствием.</p>
+                </div>
+              </div><!-- End Icon Box -->
+
+              <div class="col-xl-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="icon-box d-flex flex-column justify-content-center align-items-center">
+                  <img src="../media/icons/group 385.png" alt="">
+                  <h4>Индивидуальный подход учителей</h4>
+                  <p>Предоставляя индивидуальную поддержку и поощрение, они помогают учащимся полностью раскрыть свой потенциал.</p>
+                </div>
+              </div><!-- End Icon Box -->
+
+              <div class="col-xl-4" data-aos="fade-up" data-aos-delay="400">
+                <div class="icon-box d-flex flex-column justify-content-center align-items-center">
+                    <img src="../media/icons/group 386.png" alt="">
+                  <h4>Современые обородувание</h4>
+                  <p>Наши классы оснащены новейшими образовательными технологиями для интерактивного и увлекательного обучени. </p>
+                </div>
+              </div><!-- End Icon Box -->
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- /Why Us Section -->
+
+
+    <!-- Courses Section -->
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2></h2>
+        <p class="">Новасти дня </p>
+      </div><!-- End Section Title -->
+    
+    <!-- Trainers Index Section -->
+    <section id="trainers-index" class="section trainers-index">
+
+      <div class="container">
+
+        <div class="row">
+          {% for post in all_events|slice:":6" %}
+          <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="member">
+              <img src="{{ post.PostImage.first.image.url }}" class="img-fluid" alt="">
+              <div class="member-content">
+                <h4><a href="events/" >{{ post.title }}</a></h4>
+                <span>{{ post.description|truncatewords:30|safe }}</span>
+                <p>
+                  {{ post.created_at }}
+                </p>
+              </div>
+            </div>
+
+          </div><!-- End Team Member -->
+          {% endfor %}
+
+        </div>
+
+      </div>
+
+    </section><!-- /Trainers Index Section -->
+
+  </main>
+  {% endblock main_content %}
+
+  {% block map %}
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12100.654867199912!2d73.18084883516565!3d40.69239185439289!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38bd760ec875a8b5%3A0x42613c8f85d61c93!2z0KHRgNC10LTQvdGP0Y8g0YjQutC-0LvQsCDihJY1INC40LwuINCSLtCYLiDQm9C10L3QuNC90LA!5e0!3m2!1sru!2skg!4v1717423441756!5m2!1sru!2skg" width="1270" height="500px" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  {% endblock map %}
+  <footer id="footer" class="footer position-relative">
+
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-6 footer-about">
+          <a href="{% url 'about' %}" class="logo d-flex align-items-center">
+            <span class="sitename">СШ №5 имени В.И.Ленина</span>
+          </a>
+          <div class="footer-contact pt-3">
+            <p><strong>Адрес:</strong>Кыргызская Республика, Ошская область, Узгенский районсело Куршаб, улица А.Камчыбекова 209</p>
+
+            <p class="mt-3"><strong>Номер:</strong> <span>+1 5589 55488 55</span></p>
+            <p href="" ><strong>Почта:</strong> <span><a></a>lenina.5.kurshab@mail.ru</span></p>
+          </div>
+          <div class="social-links d-flex mt-4">
+            <a href=""><i class="bi bi-twitter-x"></i></a>
+            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About us</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Terms of service</a></li>
+            <li><a href="#">Privacy policy</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Our Services</h4>
+          <ul>
+            <li><a href="#">Web Design</a></li>
+            <li><a href="#">Web Development</a></li>
+            <li><a href="#">Product Management</a></li>
+            <li><a href="#">Marketing</a></li>
+            <li><a href="#">Graphic Design</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4 col-md-12 footer-newsletter">
+          <h4>Our Newsletter</h4>
+          <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
+          <form action="forms/newsletter.php" method="post" class="php-email-form">
+            <div class="newsletter-form"><input type="email" name="email"><input type="submit" value="Subscribe"></div>
+            <div class="loading">Loading</div>
+            <div class="error-message"></div>
+            <div class="sent-message">Your subscription request has been sent. Thank you!</div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+
+
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+
+
+  <!-- Vendor JS Files -->
+  <script data-cfasync="false" src="../static/js/email-decode.min.js"></script>
+  <script src="../static/js/bootstrap.bundle.min.js"></script>
+  <script src="../static/js/validate.js"></script>
+  <script src="../static/js/aos.js"></script>
+  <script src="../static/js/glightbox.min.js"></script>
+  <script src="../static/js/purecounter_vanilla.js"></script>
+  <script src="../static/js/swiper-bundle.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="../static/js/main.js"></script>
+</body>
+
+</html>

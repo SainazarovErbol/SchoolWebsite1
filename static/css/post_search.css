@@ -1,0 +1,52 @@
+
+
+.d7:after {content:""; clear:both; display:table}
+.d7 form {
+  width: auto;
+  float: right;
+  margin-right: 30px;
+}
+/*.events section.container.row.d7*/
+.d7 input {
+  width: 250px;
+  height: 42px;
+  padding-left: 15px;
+  border-radius: 42px;
+  border: 2px solid #324b4e;
+  background: #F9F0DA;
+  outline: none;
+  position: relative;
+  transition: .3s linear;
+}
+.d7 input:focus {
+  width: 300px;
+}
+.d7 button {
+  border: 0;
+  font-size: 18px;
+  padding: 0 20px 2px 20px;
+  margin: -7px -8px -7px 0;
+  background: var(--accent-color);
+  color: var(--contrast-color);
+  transition: 0.3s;
+  border-radius: 50px;
+}
+.d7 button:before{
+  content: "\f002";
+  font-family: FontAwesome;
+  color: #324b4e;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.search-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px; /* Отступ между поисковой строкой и контентом */
+}
+
+

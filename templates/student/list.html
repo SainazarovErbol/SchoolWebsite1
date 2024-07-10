@@ -1,0 +1,138 @@
+{% extends 'index.html' %}
+
+{% block nav %}
+
+<nav id="navmenu" class="navmenu">
+<ul>
+  <li><a href="{% url 'index' %}">Главное<br></a></li>
+  <!-- <li><a href="about.html">О школе</a></li> -->
+  <li class="dropdown"><a href="#" class="active"><span>Школа⬇</span> <i class=""></i></a>
+    <ul>
+      <li><a href="{% url 'about' %}" class="active">О нас</a></li>
+      <li><a href="{% url 'list_teacher' %}">Администрация и педогагический состав</a></li>
+    </ul>
+  </li>
+  <li class="dropdown"><a href="#"><span>Учебный процесс</span><i class=""></i></a>
+    <ul>
+      <li><a href="{% url 'student_list' %}">Активные ученики</a></li>
+        <li><a href="{% url 'schedule_list' %}">Расписание</a></li>
+    </ul>
+  </li>
+  <li><a href="{% url 'gallery_list' %}">Галерея</a></li>
+  <li><a href="{% url 'post_list' %}">Новасти</a></li>
+  {% if user.joined_groups >= 1 or user.taught_groups >= 1  %}
+      <li class="dropdown"><a href=""><span>Группы</span></a>
+          <ul>
+              {% if user.joined_groups.all or user.taught_groups.all %}
+                {% for group in user.joined_groups.all %}
+                <li><a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></li>
+                {% endfor %}
+                {% for group in user.taught_groups.all %}
+                <li><a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></li>
+                {% endfor %}
+              {% else %}
+
+              {% endif %}
+          </ul>
+      </li>
+  {% endif %}
+
+  {% if user.is_superuser %}
+    <li class="dropdown"><a><span>Акаунт</span></a>
+        <ul>
+            <li>
+                <a href="{% url 'profile' pk=user.id %}">Профиль</a>
+{#                    <a href="{% provider_login_url 'google' %}">Войти через Google</a>#}
+            </li>
+            <li><a  href="{% url 'register' %}">Создать пользователя</a></li>
+        </ul>
+      </li>
+  {% else %}
+    {% if user.is_authenticated %}
+      <li><a href="{% url 'profile' pk=user.id %}"><span>Профиль</span></a>
+
+    {% else %}
+      <li class="dropdown"><a><span>Акаунт</span></a>
+        <ul>
+            <li>
+            <a  href="{% url 'login' %}">Войти</a>
+            </li>
+        </ul>
+      </li>
+    {% endif %}
+  {% endif %}
+
+    <!--  <li><a href="contact.html">Contact</a></li> -->
+</ul>
+<i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+</nav>
+
+{% endblock nav %}
+{% block main_content %}
+<main class="main">
+
+  <!-- Page Title -->
+  <div class="page-title" data-aos="fade">
+    <div class="heading">
+      <div class="container">
+        <div class="row d-flex justify-content-center text-center">
+          <div class="col-lg-8">
+            <h1>Парламент школы </h1>
+            <p class="mb-0">Школьный парламент, образован что-бы улучшить взаимоотнашение между учениками и администрацией школы. Целью членов школьного парламента является представление интересов своих одноклассников и улучшение школьной среды. Они работают над тем чтобы привлечь внимание к вопросам, которые волнуют учеников, и искать решения для этих проблем </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav class="breadcrumbs">
+      <div class="container">
+        <ol>
+          <li><a href="/">Главное</a></li>
+          <li class="current">Активные ученики</li>
+          {% if user.role == 'content_maker' or user.is_superuser %}
+            <li><a href="{% url 'student_create' %}">Создать ученика</a></li>
+          {% endif %}
+        </ol>
+      </div>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <!-- Events Section -->
+  <section id="trainers" class="section trainers">
+
+    <div class="container">
+
+      <div class="row gy-5">
+        
+        {% for student in students %}
+        <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="100" style="display: flex;flex-direction: column;align-items: center" >
+          <div class="member-img">
+            <img src="{{ student.image.url }}"  alt="" style="width: 100px;border-radius: 50px">
+{#            <div class="social">#}
+{#              <a href="#"><i class="bi bi-twitter-x"></i></a>#}
+{#              <a href="#"><i class="bi bi-facebook"></i></a>#}
+{#              <a href="#"><i class="bi bi-instagram"></i></a>#}
+{#              <a href="#"><i class="bi bi-linkedin"></i></a>#}
+{#            </div>#}
+          </div>
+          <div class="member-info text-center">
+            <h4><a href="{% url 'student_detail' student.pk %}">{{ student.first_name }} {{ student.last_name }}</a></h4>
+              <p>{{ student.grade }} класс</p>
+{#            <span class="">{{ student.grade }}</span>#}
+{#            <p class="fst-italic text-center">{{ student.bio }}</p>#}
+          </div>
+        </div><!-- End Team Member -->
+        
+        {% endfor %}
+
+
+      </div>
+
+    </div>
+
+  </section><!-- /Trainers Section -->
+</main>
+
+{% endblock %}
+{% block map %}
+
+{% endblock %}
