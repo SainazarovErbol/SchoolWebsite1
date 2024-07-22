@@ -4,45 +4,95 @@
     <meta charset="UTF-8">
     <title>Create Post</title>
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/styles.css">
-    <script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script>
+
 </head>
 <body>
     <h1>Create Post</h1>
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" action="{% url 'post_create' %}">
         {% csrf_token %}
+
         {{ form.as_p }}
-        {{ formset.as_p }}
-        <button type="submit" onclick="this.form.submit();">Create</button>
+        <table class="table">
+            {{ formset.management_form }}
+            {% for form in formset.forms %}
+            <tr class="formset_row">
+                {% for field in form.visible_fields %}
+                <td>
+                    {% if forloop.first %}
+                    {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                    {% endfor %}
+                    {% endif %}
+                    {{ field.errors.as_ul }}
+                    {{ field }}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        <button type="submit" class="create_post">Создать</button>
     </form>
 
+    <script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script>
+    <!-- Include jQuery Formset -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.formset/1.2.2/jquery.formset.js"></script>
+
     <script>
-        ClassicEditor
-            .create(document.querySelector('#id_description'), {
-                toolbar: [
-                    'heading', '|',
-                    'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|',
-                    'insertTable', 'tableColumn', 'tableRow', 'mergeTableCells', '|',
-                    'imageUpload', '|',
-                    'undo', 'redo'
-                ],
-                image: {
+        document.addEventListener("DOMContentLoaded", function() {
+            ClassicEditor
+                .create(document.querySelector('#id_description'), {
+                    ckfinder: {
+                        uploadUrl: '{% url "upload_image" %}',
+                        headers: {
+                            'X-CSRFToken': getCookie('csrftoken')
+                        }
+                    },
                     toolbar: [
-                        'imageTextAlternative', 'imageStyle:full', 'imageStyle:side'
-                    ]
-                },
-                heading: {
-                    options: [
-                        { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-                        { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-                        { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-                        { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
-                    ]
-                },
-            })
-            .catch(error => {
-                console.error(error);
+                        'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'insertTable', 'imageUpload', '|', 'undo', 'redo'
+                    ],
+                    simpleUpload: {
+                        uploadUrl: '{% url "upload_image" %}',
+                        withCredentials: true,
+                        headers: {
+                            'X-CSRFToken': getCookie('csrftoken')
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Include jQuery Formset -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.formset/1.2.2/jquery.formset.js"></script>
+
+    <!-- Initialize jQuery Formset -->
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            $('.formset_row').formset({
+                addText: '<button class="btn btn-info mt-3">Добавить новое изображение</button>',
+                deleteText: '<button class="btn btn-danger">Удалить</button>',
+                prefix: '{{ formset.prefix }}',  // Make sure this matches the prefix used in the formset
             });
+        });
     </script>
 </body>
 </html>
-

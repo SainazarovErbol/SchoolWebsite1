@@ -2,8 +2,16 @@ from django.db import models
 
 from django_ckeditor_5.fields import CKEditor5Field
 
+from apps.categories.models import Category
+
 
 class Post(models.Model):
+    category = models.ManyToManyField(
+        Category,
+        related_name='posts',
+        blank=True,
+        null=True
+    )
     title = models.CharField(
         max_length=100,
         verbose_name='Название'
@@ -24,7 +32,7 @@ class PostImage(models.Model):
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
-        related_name='PostImage'
+        related_name='PostImages'
 
     )
     image = models.ImageField(

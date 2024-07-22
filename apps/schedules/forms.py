@@ -6,6 +6,7 @@ class ScheduleForm(forms.ModelForm):
         model = Schedule
         fields = ['grade', 'subject', 'day_of_week', 'start_time', 'end_time']
         widgets = {
+            'grade': forms.Select(choices=Schedule.grade),
             'day_of_week': forms.Select(choices=Schedule.DAY_CHOICES),
             'subject': forms.Select(choices=Schedule.SUBJECT_CHOICES),
             'start_time': forms.TimeInput(format='%H:%M', attrs={'type': 'time'}),

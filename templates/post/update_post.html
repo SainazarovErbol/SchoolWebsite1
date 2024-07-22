@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" {% static 'css/update_post.css' %}>
+</head>
+<body>
+  <div class="container">
+    <h1>Edit Post</h1>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-group">
+        {{ form.title.label_tag }}
+        {{ form.title }}
+        {% if form.title.errors %}
+          <ul class="errorlist">
+            {% for error in form.title.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+      <div class="form-group">
+        {{ form.description.label_tag }}
+        {{ form.description }}
+        {% if form.description.errors %}
+          <ul class="errorlist">
+            {% for error in form.description.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      <!-- Formset for Post Images -->
+      <div class="formset-wrapper">
+        {{ formset.management_form }}
+        {% for form in formset.forms %}
+          <div class="formset-item formset_row">
+            {% for field in form %}
+              <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                  <ul class="errorlist">
+                    {% for error in field.errors %}
+                      <li>{{ error }}</li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </div>
+            {% endfor %}
+            <button type="button" class="btn btn-danger delete-formset-row">Удалить</button>
+          </div>
+        {% endfor %}
+        <button type="button" class="btn btn-info mt-3 add-formset-row">Добавить новое изображение</button>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+    </form>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.formset/1.2.2/jquery.formset.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.formset_row').formset({
+        addText: 'Добавить новое изображение',
+        deleteText: 'Удалить',
+        prefix: 'postimage_set',
+      });
+
+      // Optional: Add functionality to delete formset rows
+      $('.formset-wrapper').on('click', '.delete-formset-row', function() {
+        $(this).closest('.formset-item').remove();
+      });
+
+      // Optional: Add functionality to add formset rows dynamically
+      $('.add-formset-row').click(function() {
+        var newFormsetRow = $('.formset-item:first').clone();
+        newFormsetRow.find('input, textarea').val('');
+        newFormsetRow.find('.errorlist').remove();
+        newFormsetRow.insertAfter('.formset-item:last');
+      });
+    });
+  </script>
+</body>
+</html>

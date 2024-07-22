@@ -1,0 +1,50 @@
+/* Add this to your main CSS file or create a new one */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.errorlist {
+  color: red;
+}
+
+.btn {
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+.formset-wrapper {
+  margin-top: 20px;
+}
+
+.formset-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.formset-item .form-group {
+  margin-bottom: 10px;
+}
+
+.formset-item:last-child {
+  margin-bottom: 0;
+}

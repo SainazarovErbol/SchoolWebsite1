@@ -10,7 +10,11 @@
 <body>
     <div class="profile-container">
         <div class="profile-header">
-            <img src="profile-picture.jpg" alt="Profile Picture" class="profile-picture">
+            {% if user.photo %}
+                <img src="{{ user.photo.url }}" alt="Profile Picture" class="profile-picture">
+            {% else %}
+                <img src="../../media/img/user_default_photo.png" alt="Profile Picture" class="profile-picture">
+            {% endif %}
             <h1 class="user-name">{{ user.username }}</h1>
             <p class="user-role">{{ user.role }}</p>
         </div>

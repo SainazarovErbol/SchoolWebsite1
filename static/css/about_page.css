@@ -1,0 +1,166 @@
+/* General Styles */
+.about-page body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+}
+
+.about-page h1, .about-page h3, .about-page h4, .about-page p {
+    margin: 0 0 1em 0;
+}
+
+/* Navigation Styles */
+.about-page .navmenu {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+}
+
+.about-page .navmenu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+.about-page .navmenu ul li {
+    position: relative;
+}
+
+.about-page .navmenu ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 15px;
+    display: block;
+}
+
+.about-page .navmenu ul li a:hover,
+.about-page .navmenu ul li a.active {
+    background-color: #444;
+}
+
+.about-page .navmenu ul li ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #333;
+    padding: 0;
+}
+
+.about-page .navmenu ul li:hover ul {
+    display: block;
+}
+
+.about-page .navmenu ul li ul li {
+    width: 200px;
+}
+
+/* Page Title Styles */
+.about-page .page-title {
+    background: #f7f7f7;
+    padding: 50px 0;
+    text-align: center;
+}
+
+.about-page .page-title h1 {
+    font-size: 2.5em;
+    color: #333;
+}
+
+.about-page .page-title p {
+    font-size: 1.2em;
+    color: #777;
+}
+
+/* Breadcrumbs Styles */
+.about-page .breadcrumbs {
+    background: #eee;
+    padding: 15px 0;
+}
+
+.about-page .breadcrumbs ol {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+}
+
+.about-page .breadcrumbs ol li {
+    margin: 0 10px;
+    font-size: 1em;
+}
+
+.about-page .breadcrumbs ol li a {
+    text-decoration: none;
+    color: #333;
+}
+
+.about-page .breadcrumbs ol li.current {
+    color: #777;
+}
+
+/* About Us Section Styles */
+.about-page #about-us {
+    padding: 50px 0;
+}
+
+.about-page #about-us .content h3 {
+    font-size: 2em;
+    color: #333;
+}
+
+.about-page #about-us .content p {
+    font-size: 1.2em;
+    color: #777;
+}
+
+.about-page #about-us .content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.about-page #about-us .content ul li {
+    font-size: 1.2em;
+    color: #333;
+}
+
+.about-page #about-us .content .director {
+    font-style: italic;
+    color: #555;
+}
+
+/* Counts Section Styles */
+.about-page #counts {
+    background: #f7f7f7;
+    padding: 50px 0;
+    text-align: center;
+}
+
+.about-page .stats-item span {
+    font-size: 2.5em;
+    color: #333;
+}
+
+.about-page .stats-item p {
+    font-size: 1.2em;
+    color: #777;
+}
+
+/* Testimonials Section Styles */
+.about-page #testimonials {
+    padding: 50px 0;
+    text-align: center;
+}
+
+.about-page .section-title p {
+    font-size: 1.2em;
+    color: #333;
+    font-weight: bold;
+}
+
+.about-page .section-title h4 {
+    font-size: 1.5em;
+    color: #555;
+    line-height: 1.4;
+}

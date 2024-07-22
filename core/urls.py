@@ -3,6 +3,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from apps.posts.views import custom_upload_file
 from core.swagger import docs
 
 urlpatterns = [
@@ -11,6 +12,7 @@ urlpatterns = [
     path('api-login/', include('rest_framework.urls')),
     path('docs/', docs.with_ui('swagger', cache_timeout=0), name="docs"),
     path("ckeditor5/", include('django_ckeditor_5.urls')),
+    path('ckeditor5/upload/', custom_upload_file, name='upload_image'),
     path('accounts/', include('allauth.urls')),
 ]
 

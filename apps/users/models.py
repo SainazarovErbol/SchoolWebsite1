@@ -6,9 +6,11 @@ from apps.grades.models import Grade
 
 class CustomUser(AbstractUser):
     ROLE_CHOICES = [
-        ('teacher', 'Teacher'),
-        ('student', 'Student'),
-        ('content_maker', 'Content Maker'),
+        ('staff', 'Персонал'),
+        ('parent', 'Родитель'),
+        ('teacher', 'Учитель'),
+        ('student', 'Ученик'),
+        ('content_maker', 'Контент_мейкер'),
     ]
     STUDENT_STATUS_CHOICES = [
         ('studying', 'Учится'),
@@ -37,7 +39,7 @@ class CustomUser(AbstractUser):
     date_of_birth = models.DateField(blank=True, null=True)
     photo = models.ImageField(upload_to='photos/', blank=True, null=True)
 
-    enrollment_date = models.DateField(blank=True, null=True)\
+    enrollment_date = models.DateField(blank=True, null=True)
 
     grade = models.ForeignKey(Grade, on_delete=models.SET_NULL, null=True, blank=True, related_name='users')
 
@@ -47,16 +49,3 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
 
-
-class TeacherRolePassword(models.Model):
-    password = models.CharField(max_length=255)
-
-    def __str__(self):
-        return "Teacher Role Password"
-
-
-class ContentMakerRolePassword(models.Model):
-    password = models.CharField(max_length=128)
-
-    def __str__(self):
-        return "Content Maker Role Password"

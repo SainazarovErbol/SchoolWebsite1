@@ -16,7 +16,7 @@
     {% if user.is_authenticated %}
         {% if can_edit %}
             <div class="actions">
-                <a href="{% url 'schedule_create' %}" class="button">Create Schedule</a>
+                <a href="{% url 'schedule_create' %}" class="button" style="text-decoration: none; color: white">Create Schedule</a>
             </div>
         {% endif %}
 
@@ -57,7 +57,7 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <a href="{% url 'index' %}">Выйти</a>
+            <button class="button" ><a style="text-decoration: none; color: white" href="{% url 'index' %}">Выйти</a></button>
         {% else %}
             <p>Нет расписаний</p><a href="{% url 'index' %}">Выйти</a>
         {% endif %}

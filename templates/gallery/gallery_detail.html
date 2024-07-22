@@ -74,7 +74,7 @@
 {% block main_content %}
 <div class="gallery-detail-container">
     <h1 class="gallery-title"><strong>{{ gallery.title }}</strong></h1>
-    <p class="gallery-description">{{ gallery.description }}</p>
+    <p class="gallery-description" type="text">{{ gallery.description|safe }}</p>
 
     <div class="gallery-images">
         {% for gallery_image in gallery.GalleryImages.all %}

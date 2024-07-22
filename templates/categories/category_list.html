@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>Categories</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for category in categories %}
+            <tr>
+                <td>{{ category.title }}</td>
+                <td>
+                    <a href="{% url 'category_edit' category.id %}">Edit</a>
+                    <a href="{% url 'category_delete' category.id %}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <form action="{% url 'category_add' %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="category_name" placeholder="Add new category" required>
+        <button type="submit" class="btn btn-primary btn-sm">Add Category</button>
+    </form>
+
+</body>
+</html>

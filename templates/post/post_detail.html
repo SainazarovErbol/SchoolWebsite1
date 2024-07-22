@@ -1,4 +1,35 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination .step-links a {
+            margin: 0 5px;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .pagination .step-links .current {
+            margin: 0 5px;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            background-color: #007bff;
+            color: white;
+        }
+        .page-title {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
 <main class="main">
     <div class="page-title" data-aos="fade" style="text-align: center">
         <div class="heading">
@@ -7,41 +38,86 @@
                     <div class="col-lg-8">
                         <h1>{{ post.title }}</h1>
                         <p class="mb-0">{{ post.description|safe }}</p>
+                        {% if user.is_authenticated and user.is_superuser or user.role == 'content_maker' %}
+                            <a href="{% url 'post_delete' pk=post.id %}">удалить</a>
+                            <a href="{% url 'post_update' pk=post.id %}">обнавить</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
 
-
         <!-- Events Section -->
-
-        {% for post_image in post.PostImage.all %}
+        {% for post_image in image_page_obj %}
             <img src="{{ post_image.image.url }}" alt="RAaf" style="width: auto; height: 200px;" >
         {% endfor %}
-
-
         <p class="card-text">Дата публикации: {{ post.created_at.date }}</p>
-        <a href="{% url 'post_list' %}">Back to Post List</a>
+
+        <!-- Pagination Links for Images -->
+        <div class="pagination">
+            <span class="step-links">
+                {% if image_page_obj.has_previous %}
+                    <a href="?image_page=1">&laquo; Первый</a>
+                    <a href="?image_page={{ image_page_obj.previous_page_number }}">Назад</a>
+                {% endif %}
+                <span class="current">
+                    Page {{ image_page_obj.number }} of {{ image_page_obj.paginator.num_pages }}.
+                </span>
+                {% if image_page_obj.has_next %}
+                    <a href="?image_page={{ image_page_obj.next_page_number }}">Вперед</a>
+                    <a href="?image_page={{ image_page_obj.paginator.num_pages }}">Последний &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
 
 
-        {% for comment in post.comments.all %}
+        <p>Категории:</p>
+        {% for tag in post.category.all %}
+            <h4>
+                <a>{{ tag.title }}</a>
+            </h4>
+        {% endfor %}
+
+
+        {% for comment in comment_page_obj %}
             <h3><a href="../../profile/{{ comment.user.id }}">{{ comment.user.username }}</a></h3>
             <p>{{ comment.text }}</p>
-            {% if comment.user.username == user.username %}
-                <a href="../../comment/{{ comment.id }}/delete/"> Удалить </a>
+            {% if comment.user.username == user.username or user.is_superuser %}
+                <a href="{% url 'delete_comment' pk=comment.id %}"> Удалить </a>
                 <a href="../../comment/{{ comment.id }}/update/"> Изменить </a>
             {% endif %}
-
         {% endfor %}
+
+        <!-- Pagination Links for Comments -->
+        <div class="pagination">
+            <span class="step-links">
+                {% if comment_page_obj.has_previous %}
+                    <a href="?comment_page=1">&laquo; first</a>
+                    <a href="?comment_page={{ comment_page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="current">
+                    Page {{ comment_page_obj.number }} of {{ comment_page_obj.paginator.num_pages }}.
+                </span>
+                {% if comment_page_obj.has_next %}
+                    <a href="?comment_page={{ comment_page_obj.next_page_number }}">next</a>
+                    <a href="?comment_page={{ comment_page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
 
         {% if user.is_authenticated %}
             <form method="post" action="">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit">Add Comment</button>
+                <button type="submit" class="btn btn-primary">Add Comment</button>
             </form>
         {% else %}
-            <h3><a href="{% url 'register' %}">Зарегестрируйтесь</a> или <a href="{% url 'login' %}">войдите</a> в акаунт, что бы оставить коментарий</h3>
+            <h3><a href="{% url 'login' %}">войдите</a> в акаунт, что бы оставить коментарий</h3>
         {% endif %}
+        <p>  </p>
+        <button class="btn btn-primary" style="display: grid"><a {% url 'post_list' %}>Назад</a></button>
     </div>
+
 </main>
+</body>
+</html>

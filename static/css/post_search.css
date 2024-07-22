@@ -1,4 +1,9 @@
 
+.category.selected a {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
 
 .d7:after {content:""; clear:both; display:table}
 .d7 form {
@@ -36,11 +41,7 @@
   font-family: FontAwesome;
   color: #324b4e;
 }
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
+
 
 .search-container {
     width: 100%;

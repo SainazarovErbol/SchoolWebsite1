@@ -21,8 +21,8 @@ h1 {
     padding: 10px 20px;
     margin: 5px;
     font-size: 16px;
-    color: #fff;
-    background-color: #007bff;
+    color: #f6f6f6;
+    background-color: #5fce7f;
     border: none;
     border-radius: 5px;
     text-decoration: none;
@@ -64,7 +64,7 @@ tr:hover {
 }
 
 .actions a {
-    color: #007bff;
+    color: #f6f6f6;
     text-decoration: none;
 }
 

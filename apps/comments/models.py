@@ -1,4 +1,5 @@
 from django.db import models
+from django_ckeditor_5.fields import CKEditor5Field
 
 from apps.tasks.models import Task
 from apps.users.models import CustomUser
@@ -6,7 +7,9 @@ from apps.posts.models import Post
 
 
 class Comment(models.Model):
-    text = models.TextField(
+    text = CKEditor5Field(
+        verbose_name='Комментарий',
+        config_name='default',
     )
     date = models.DateTimeField(
         auto_now_add=True

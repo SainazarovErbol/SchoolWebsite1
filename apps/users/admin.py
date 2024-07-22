@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, TeacherRolePassword, ContentMakerRolePassword
+from .models import CustomUser
 from django.contrib import admin
 
 
@@ -14,13 +14,3 @@ class CustomUserAdmin(UserAdmin):
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
-
-
-@admin.register(TeacherRolePassword)
-class TeacherRolePasswordAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(ContentMakerRolePassword)
-class ContentMakerRolePasswordAdmin(admin.ModelAdmin):
-    pass

@@ -39,6 +39,7 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+
 </head>
 
 <body class="index-page">
@@ -122,8 +123,23 @@
     </div>
 
   </header>
+
+  {% if messages %}
+    <div id="login-success-message" class="alert alert-success">
+        <div class="container mt-3">
+          {% for message in messages %}
+            {% if message.tags == 'success' %}
+              <div class="alert alert-success">
+                {{ message }}
+              </div>
+            {% endif %}
+          {% endfor %}
+         </div>
+    </div>
+ {% endif %}
   {% block main_content %}
   <main class="main">
+
 
     <!-- Hero Section -->
     <section id="hero" class="hero section">
@@ -139,40 +155,31 @@
 
     <!-- About Section -->
     <section id="about" class="about section">
-
       <div class="container">
-
-        <div class="row gy-4">
-
+        <div class="row gy-4 align-items-center">
           <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="100">
-            <img src="../media/img/director.jpg" class="img-fluid" alt="">
+            <img src="../media/img/director.jpg" class="img-fluid rounded" alt="Director's Photo">
           </div>
 
-          <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
+          <div class="col-lg-6 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
             <h3>Уважаемые родители и учащиеся!</h3>
             <p class="fst-italic">
               От имени нашей школы я рад приветствовать вас и представить уникальные возможности, которые мы предлагаем для всестороннего развития наших учеников.
             </p>
-            <ul>
+            <ul class="custom-list mb-4">
               <li><h5>Опытные учителя</h5></li>
               <li><h5>Внеклассные мероприятия</h5></li>
               <li><h5>Подготовка к будущему</h5></li>
               <li><h5>Психологическая поддержка</h5></li>
             </ul>
             <p>С уважением, Гулшан Карабековна</p>
-            <a>Директор школы</a>
+            <a class="btn btn-primary">Директор школы</a>
           </div>
-
         </div>
-
-
-
-
-        </div>
-
       </div>
+    </section>
 
-    </section><!-- /About Section -->
+<!-- /About Section -->
 
 
     <!-- Counts Section -->
@@ -254,7 +261,7 @@
             <div class="member">
               <img src="{{ post.PostImage.first.image.url }}" class="img-fluid" alt="">
               <div class="member-content">
-                <h4><a href="events/" >{{ post.title }}</a></h4>
+                <h4><a href="{% url 'post_detail' pk=post.id %}" >{{ post.title }}</a></h4>
                 <span>{{ post.description|truncatewords:30|safe }}</span>
                 <p>
                   {{ post.created_at }}
@@ -341,7 +348,17 @@
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
+ <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var successMessage = document.getElementById('login-success-message');
+        if (successMessage) {
+            successMessage.style.display = 'block';
+            setTimeout(function () {
+                successMessage.style.display = 'none';
+            }, 3000); // 3000 milliseconds = 3 seconds
+        }
+    });
+</script>
 
 
   <!-- Vendor JS Files -->

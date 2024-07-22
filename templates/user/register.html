@@ -1,78 +1,106 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0"
-		/>
-		<title>Registration Form</title>
-		<link rel="stylesheet" href="../../static/css/register.css">
-	</head>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <style>
+        .d-none {
+            display: none;
+        }
+        .message {
+            background-color: #4CAF50; /* Green */
+            color: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+        }
+        .message-close {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 22px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .message-close:hover {
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="main" style="align-content: center">
+        <h2>Регистрация</h2>
 
-	<body>
+        {% if messages %}
+        <div id="message" class="message">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+            <span class="message-close" onclick="this.parentElement.style.display='none';">&times;</span>
+        </div>
+        {% endif %}
 
-		<div class="main" style="align-content: center">
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Имя пользователя:</label>
+                <input type="text" id="username" name="username" class="form-control" required>
+            </div>
+            <div class="form-group d-none" id="grade_group">
+                <label for="grade">Grade:</label>
+                {{ form.grade }}
+            </div>
+            <div class="form-group">
+                <label for="password1">Пароль:</label>
+                <input type="password" id="password1" name="password1" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="password2">Подтвердите пароль:</label>
+                <input type="password" id="password2" name="password2" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="role">Роль:</label>
+                {{ form.role }}
+            </div>
+            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+            <p>   </p>
+            <button type="submit" class="btn btn-primary" ><a href="{% url 'index' %}" style="text-decoration:none; color: white">Назад</a></button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('id_role').addEventListener('change', function() {
+            var gradeGroup = document.getElementById('grade_group');
 
-			<h2>Регистрация</h2>
+            if (this.value === 'student') {
+                gradeGroup.classList.remove('d-none');
+            } else {
+                gradeGroup.classList.add('d-none');
+            }
+        });
 
-            <form method="post">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="username">Имя пользователя:</label>
-                    <input type="text" id="username" name="username" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="grade">Grade:</label>
-                    <input type="text" id="grade" name="grade" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="password1">Пароль:</label>
-                    <input type="password" id="password1" name="password1" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="password2">Подтвердите пароль:</label>
-                    <input type="password" id="password2" name="password2" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="role">Роль:</label>
-                    <select id="role" name="role" class="form-control" required>
-                        <option value="student">Студент</option>
-                        <option value="teacher">Учитель</option>
-                        <option value="content_maker">Контент мейкер</option>
-                    </select>
-                </div>
-                <div id="teacher_password_group" class="form-group" style="display: none;">
-                    <label for="teacher_password">Пароль учителя:</label>
-                    <input type="password" id="teacher_password" name="teacher_password" class="form-control">
-                </div>
-                <div id="content_maker_password_group" class="form-group" style="display: none;">
-                    <label for="content_maker_password">Пароль контент мейкера:</label>
-                    <input type="password" id="content_maker_password" name="content_maker_password" class="form-control">
-                </div>
+        // Initialize the form based on the selected role
+        document.addEventListener("DOMContentLoaded", function() {
+            var event = new Event('change');
+            document.getElementById('id_role').dispatchEvent(event);
+        });
 
-                <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
-
-            </form>
-
-		</div>
-        <script>
-            document.getElementById('role').addEventListener('change', function() {
-                var teacherPasswordGroup = document.getElementById('teacher_password_group');
-                var contentMakerPasswordGroup = document.getElementById('content_maker_password_group');
-
-                if (this.value === 'teacher') {
-                    teacherPasswordGroup.style.display = 'block';
-                    contentMakerPasswordGroup.style.display = 'none';
-                } else if (this.value === 'content_maker') {
-                    contentMakerPasswordGroup.style.display = 'block';
-                    teacherPasswordGroup.style.display = 'none';
-                } else {
-                    teacherPasswordGroup.style.display = 'none';
-                    contentMakerPasswordGroup.style.display = 'none';
+        // Automatically hide the message after 5 seconds
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                var message = document.getElementById('message');
+                if (message) {
+                    message.style.display = 'none';
                 }
-            });
-
-        </script>
-	</body>
+            }, 5000);
+        });
+    </script>
+</body>
 </html>

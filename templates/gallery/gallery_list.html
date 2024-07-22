@@ -14,7 +14,7 @@
   <!-- <li><a href="about.html">О школе</a></li> -->
   <li class="dropdown"><a href="#" class="active"><span>Школа⬇</span> <i class=""></i></a>
     <ul>
-      <li><a href="{% url 'about' %}" class="active">О нас</a></li>
+      <li><a href="{% url 'about' %}">О нас</a></li>
       <li><a href="{% url 'list_teacher' %}">Администрация и педогагический состав</a></li>
     </ul>
   </li>
@@ -24,7 +24,7 @@
         <li><a href="{% url 'schedule_list' %}">Расписание</a></li>
     </ul>
   </li>
-  <li><a href="{% url 'gallery_list' %}">Галерея</a></li>
+  <li><a href="{% url 'gallery_list' %}" class="active">Галерея</a></li>
   <li><a href="{% url 'post_list' %}">Новасти</a></li>
   {% if user.joined_groups >= 1 or user.taught_groups >= 1  %}
       <li class="dropdown"><a href=""><span>Группы</span></a>
@@ -77,7 +77,7 @@
 
 
 {% block main_content %}
-    {% if user.is_superuser  %}
+    {% if user.is_superuser or user.role == 'content_maker' %}
         <div style="text-align: center; margin-bottom: 20px;">
             <a href="{% url 'gallery_create' %}" class="btn btn-primary">Create Gallery</a>
         </div>
@@ -85,7 +85,6 @@
 
 
     <div class="gallery-container">
-    <h3 class="gallery-title">Галерея</h3>
     <div class="gallery-grid">
         {% for gallery in galleries %}
         <div class="gallery-item">

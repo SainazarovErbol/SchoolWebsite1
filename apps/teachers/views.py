@@ -17,7 +17,7 @@ class TeacherCreateView(UserPassesTestMixin, CreateView):
     success_url = reverse_lazy('list_teacher')
 
     def test_func(self):
-        return self.request.user.has_perm('teacher.add_teacher')
+        return self.request.user.is_superuser
 
     def handle_no_permission(self):
         from django.http import HttpResponseForbidden

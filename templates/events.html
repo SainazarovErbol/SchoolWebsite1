@@ -69,11 +69,8 @@
 
 {% endblock nav %}
 
-
 {% block main_content %}
 <main class="main">
-
-
   <!-- Page Title -->
   <div class="page-title" data-aos="fade">
     <div class="heading">
@@ -81,7 +78,7 @@
         <div class="row d-flex justify-content-center text-center">
           <div class="col-lg-8">
             <h1>Events</h1>
-            <p class="mb-0">Odio et unde deleniti. Deserunt numquam exercitationem. Officiis quo odio sint voluptas consequatur ut a odio voluptatem. Sit dolorum debitis veritatis natus dolores. Quasi ratione sint. Sit quaerat ipsum dolorem.</p>
+            <p class="mb-0">Odio et unde deleniti...</p>
           </div>
         </div>
       </div>
@@ -91,75 +88,72 @@
         <ol>
           <li><a href="/">Главное</a></li>
           <li class="current">Новасти</li>
-
+          {% if user.is_authenticated and user.is_superuser or user.role == 'content_maker' %}
+            <li><a href="{% url 'post_create' %}">Создать пост</a></li>
+          {% endif %}
         </ol>
-
       </div>
     </nav>
   </div><!-- End Page Title -->
 
   <!-- Events Section -->
   <section id="events" class="events section">
-
     <div class="container" data-aos="fade-up">
         <div class="search-container">
             {% include 'search.html' %}
         </div>
-      <div class="row">
-
-
-
-        {% for post in posts %}
-        <div class="col-md-6 d-flex align-items-stretch">
-          <div class="card">
-            <div class="card-img" >
-              
-              <img src="{{ post.PostImage.first.image.url }}" alt="|" style="width: auto; height: auto;" >
-              
-            </div>
-            
-            <div class="card-body">
-              <h5 class="card-title"><a href="{% url 'post_detail' post.id  %}">{{ post.title }}</a></h5>
-              <p class="fst-italic text-center">{{ post.description|truncatewords:"25"|safe }}</p>
-              <p class="card-text">Дата публикации: {{ post.created_at.date }}</p>
-              
-            </div>
+        <!-- Categories Section -->
+        <div class="categories-section">
+          <h2>Categories</h2>
+          <div class="categories-list">
+            {% for category in categories %}
+              <span class="category {% if category.id|stringformat:"d" == selected_category %}selected{% endif %}" id="category-{{ category.id }}">
+                <a href="{% url 'post_list' %}?category={{ category.id }}">
+                    {{ category.title }}
+                </a>
+                {% if user.is_authenticated and user.is_superuser or user.role == 'content_maker' %}
+                  <a href="{% url 'category_delete' category.id %}" class="btn btn-danger btn-sm">x</a>
+                {% endif %}
+              </span>
+            {% endfor %}
           </div>
+          {% if user.is_authenticated and user.is_superuser or user.role == 'content_maker' %}
+              <a href="{% url 'category_add' %}">Добавить категори</a>
+          {% endif %}
         </div>
-        {% endfor %}
 
-      </div>
+        <div id="post-container" class="row">
+            {% include 'post/filtered_posts.html' %}
+        </div>
 
-      <div class="pagination">
+        <div class="pagination">
             <span class="step-links">
                 {% if page_obj.has_previous %}
                     <a href="?{% if filter.form.data %}{{ filter.form.data.urlencode }}&amp;{% endif %}page=1">&laquo; first</a>
                     <a href="?{% if filter.form.data %}{{ filter.form.data.urlencode }}&amp;{% endif %}page={{ page_obj.previous_page_number }}">previous</a>
                 {% endif %}
-
-
                 {% for page_num in page_obj.paginator.page_range %}
                     <a href="?page={{ page_num }}">{{ page_num }}</a>
                 {% endfor %}
-
                 {% if page_obj.has_next %}
                     <a href="?{% if filter.form.data %}{{ filter.form.data.urlencode }}&amp;{% endif %}page={{ page_obj.next_page_number }}">next</a>
                     <a href="?{% if filter.form.data %}{{ filter.form.data.urlencode }}&amp;{% endif %}page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
                 {% endif %}
             </span>
-
         </div>
 
-
-
     </div>
-
   </section><!-- /Events Section -->
-<span class="current" style="text-align: center">
+
+  <span class="current" style="text-align: center">
     Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-</span>
+  </span>
 </main>
 {% endblock %}
+
 {% block map %}
 
 {% endblock %}
+
+
+

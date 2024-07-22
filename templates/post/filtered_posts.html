@@ -1,0 +1,19 @@
+{% load static %}
+{% for post in posts %}
+<div class="col-md-6 d-flex align-items-stretch post" data-category="{{ post.category.id }}">
+  <div class="card">
+    <div class="card-img">
+      {% if post.PostImages.first.image %}
+        <img src="{{ post.PostImages.first.image.url }}" alt="" style="width: auto; height: auto;">
+      {% else %}
+        <img src='../../media/icons/noimage.jpg' alt="" style="width: auto; height: auto;">
+      {% endif %}
+    </div>
+    <div class="card-body">
+      <h5 class="card-title"><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h5>
+      <p class="fst-italic text-center">{{ post.description|truncatewords:"25"|safe }}</p>
+      <p class="card-text">Дата публикации: {{ post.created_at.date }}</p>
+    </div>
+  </div>
+</div>
+{% endfor %}

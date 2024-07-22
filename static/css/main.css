@@ -154,6 +154,216 @@ h6 {
   box-shadow: 0px 0 18px color-mix(in srgb, var(--default-color), transparent 85%);
 }
 
+
+/* About Section Styles */
+.about {
+  padding: 60px 0;
+  background-color: #f9f9f9; /* Light background color */
+}
+
+.about .container {
+  max-width: 1140px;
+}
+
+.about .row {
+  align-items: center;
+}
+
+.about img {
+  border-radius: 8px; /* Rounded corners for the image */
+}
+
+.about h3 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333; /* Dark text color */
+}
+
+.about p.fst-italic {
+  font-style: italic;
+  margin-bottom: 20px;
+  color: #555; /* Slightly lighter text color */
+}
+
+.about ul.custom-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.about ul.custom-list li {
+  position: relative;
+  padding-left: 30px; /* Space for custom bullet */
+  margin-bottom: 10px;
+}
+
+.about ul.custom-list li::before {
+  content: '\2022'; /* Unicode character for bullet */
+  font-size: 1.5rem; /* Size of the bullet */
+  color: #41fd01; /* Bullet color */
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.about ul.custom-list h5 {
+  font-size: 1.2rem;
+  color: #222; /* Darker color for headings */
+  margin: 0;
+}
+
+.about p {
+  margin-bottom: 20px;
+  color: #444; /* General text color */
+}
+
+.about a.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff;
+  background-color: #007bff; /* Bootstrap primary color */
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.about a.btn:hover {
+  background-color: #0056b3; /* Darker shade for hover effect */
+}
+
+
+/* Features Section Styles */
+.features {
+  padding: 60px 0;
+  background-color: #f9f9f9; /* Light background color */
+}
+
+.features .container {
+  max-width: 1140px;
+}
+
+.features .section-title {
+  margin-bottom: 40px;
+}
+
+.features .section-heading {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.features h4 {
+  font-size: 1.1rem;
+  color: #444;
+}
+
+.features img {
+  border-radius: 8px; /* Rounded corners for the image */
+}
+
+.features .row {
+  align-items: center;
+}
+
+.features .col-md-4 {
+  margin-bottom: 20px; /* Space between image and text on smaller screens */
+}
+
+.features .col-md-8 {
+  padding-left: 15px;
+}
+
+.features .img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
+
+/*--------------------------------------------------------------
+# Main category
+--------------------------------------------------------------*/
+
+/* CSS for Categories Section */
+.categories-list .category.selected {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+.categories-section {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.categories-section h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.categories-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.category {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px 15px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.category a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: 500;
+}
+
+.category a:hover {
+    color: #0056b3;
+}
+
+.category .btn {
+    margin-left: 10px;
+    padding: 2px 8px;
+    font-size: 12px;
+    color: #fff;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.category .btn:hover {
+    background-color: #c82333;
+}
+
+.category:hover {
+    background-color: #f1f1f1;
+    border-color: #ccc;
+}
+
+.category:focus-within {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.category .btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+
 /*--------------------------------------------------------------
 # Navigation Menu
 --------------------------------------------------------------*/
